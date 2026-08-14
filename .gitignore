@@ -1,0 +1,11 @@
+node_modules/
+.env
+.env.*
+!.env.example
+data/
+uploads/
+dist/
+*.log
+*.duckdb
+*.duckdb.wal
+gcp-sa.json

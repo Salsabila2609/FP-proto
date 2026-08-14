@@ -1,0 +1,17 @@
+services:
+  api:
+    build: ./backend
+    restart: unless-stopped
+    env_file: .env
+    ports: ["8080:8080"]
+    volumes:
+      - ./data:/app/data
+      - ./uploads:/app/uploads
+      - ./gcp-sa.json:/app/gcp-sa.json:ro
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /app/gcp-sa.json
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:8080/api/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
